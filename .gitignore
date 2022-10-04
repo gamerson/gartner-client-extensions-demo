@@ -1,6 +1,7 @@
 **/*.iml
 **/.ivy
 **/.classpath
+**/.go
 **/.project
 **/.sass-cache
 **/.settings
