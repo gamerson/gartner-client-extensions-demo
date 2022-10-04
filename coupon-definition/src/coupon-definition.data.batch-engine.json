@@ -49,7 +49,7 @@
           "description": "Fire this action when a coupon is issued.",
           "id": 46639,
           "name": "Coupon Issued",
-          "objectActionExecutorKey": "function#coupon-function",
+          "objectActionExecutorKey": "function#coupon-function-springboot",
           "objectActionTriggerKey": "onAfterUpdate",
           "parameters": {
             "script": "println \"Coupon ${objectEntryId} has been issued.\""
