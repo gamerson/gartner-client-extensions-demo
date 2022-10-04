@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 const winston = require('winston');
 
-
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
@@ -17,13 +16,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.post('/coupons/issued', function(req, res) {
-  try {
-    logger.info("HERE IS THE OBJECT JSON: " + JSON.stringify(req.body));
-    res.status(201).send('OK');
-  } catch (exc) {
-    logger.info(exc);
-    res.status(400).send('Invalid JSON');
-  }
+  logger.info("HERE IS THE OBJECT JSON: " + JSON.stringify(req.body));
+  res.status(201).send('OK');
 });
 
 module.exports = app;
