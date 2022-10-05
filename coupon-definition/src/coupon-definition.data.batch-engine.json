@@ -46,9 +46,9 @@
           "active": true,
           "dateCreated": "2022-09-22T18:47:52Z",
           "dateModified": "2022-09-23T03:48:12Z",
-          "description": "Fire this springboot function when a coupon is issued.",
+          "description": "Fire this Java/SpringBoot function when a coupon is issued.",
           "id": 46639,
-          "name": "Coupon Issued",
+          "name": "Coupon Issued (Java/SpringBoot)",
           "objectActionExecutorKey": "function#coupon-function-springboot",
           "objectActionTriggerKey": "onAfterUpdate",
           "parameters": {
@@ -64,10 +64,28 @@
           "active": true,
           "dateCreated": "2022-09-22T18:47:52Z",
           "dateModified": "2022-09-23T03:48:12Z",
-          "description": "Fire this nodejs function when a coupon is issued.",
+          "description": "Fire this NodeJS/Express function when a coupon is issued.",
           "id": 46639,
-          "name": "Coupon Issued",
+          "name": "Coupon Issued (NodeJS/Express)",
           "objectActionExecutorKey": "function#coupon-function-nodejs",
+          "objectActionTriggerKey": "onAfterUpdate",
+          "parameters": {
+            "script": "println \"Coupon ${objectEntryId} has been issued.\""
+          },
+          "status": {
+            "code": 0,
+            "label": "never-ran",
+            "label_i18n": "Never Ran"
+          }
+        },
+        {
+          "active": true,
+          "dateCreated": "2022-09-22T18:47:52Z",
+          "dateModified": "2022-09-23T03:48:12Z",
+          "description": "Fire this Go/Gin function when a coupon is issued.",
+          "id": 46639,
+          "name": "Coupon Issued (Go/Gin)",
+          "objectActionExecutorKey": "function#coupon-function-gogin",
           "objectActionTriggerKey": "onAfterUpdate",
           "parameters": {
             "script": "println \"Coupon ${objectEntryId} has been issued.\""
