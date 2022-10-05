@@ -15,9 +15,14 @@ app.use(express.json({ limit: 64 * 1000 }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.get('/', function(req, res) {
+  logger.info("READY");
+  res.status(200).send('READY');
+});
+
 app.post('/coupons/issued', function(req, res) {
   logger.info("HERE IS THE OBJECT JSON: " + JSON.stringify(req.body));
-  res.status(201).send('OK');
+  res.status(200).send('OK');
 });
 
 module.exports = app;
