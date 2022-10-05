@@ -1,0 +1,15 @@
+coupon-function-user-agent:
+  type: oauthApplicationUserAgent
+  scopes:
+    - C_Coupon.everything
+
+coupon-function-nodejs:
+  type: objectAction
+  resourcePath: /coupons/issued
+  oauth2Application: coupon-function-user-agent
+
+runtime:
+  port: 3000
+  watch:
+    - "app.js"
+  workload: deployment
