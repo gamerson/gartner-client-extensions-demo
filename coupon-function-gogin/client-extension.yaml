@@ -1,0 +1,14 @@
+coupon-function-gogin-user-agent:
+  type: oauthApplicationUserAgent
+  scopes:
+    - C_Coupon.everything
+
+coupon-function-gogin:
+  type: objectAction
+  resourcePath: /coupons/issued
+  oauth2Application: coupon-function-gogin-user-agent
+
+runtime:
+  watch:
+    - "main.go"
+  workload: deployment
