@@ -1,5 +1,5 @@
 {
-  "name": "coupon-issued-nodejs-function",
+  "name": "coupon-function-nodejs",
   "version": "0.0.1",
   "private": true,
   "scripts": {

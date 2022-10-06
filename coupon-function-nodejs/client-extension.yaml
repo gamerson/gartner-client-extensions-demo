@@ -8,6 +8,14 @@ coupon-function-nodejs:
   resourcePath: /coupons/issued
   oauth2Application: coupon-function-user-agent
 
+assemble:
+  - from: "."
+    include:
+      - "*.js"
+      - "*.json"
+      - "bin/*"
+    into: "."
+
 runtime:
   port: 3000
   watch:

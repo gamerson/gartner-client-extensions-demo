@@ -8,6 +8,13 @@ coupon-function-gogin:
   resourcePath: /coupons/issued
   oauth2Application: coupon-function-gogin-user-agent
 
+assemble:
+  - from: "."
+    include:
+      - "go*"
+      - "*.go"
+    into: "."
+
 runtime:
   watch:
     - "main.go"
