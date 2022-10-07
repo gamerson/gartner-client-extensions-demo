@@ -21,7 +21,9 @@ app.get('/', function(req, res) {
 });
 
 app.post('/coupons/issued', function(req, res) {
+  logger.info('----------------------------------------');
   logger.info("HERE IS THE OBJECT JSON: " + JSON.stringify(req.body));
+  logger.info('----------------------------------------');
   res.status(200).send('OK');
 });
 

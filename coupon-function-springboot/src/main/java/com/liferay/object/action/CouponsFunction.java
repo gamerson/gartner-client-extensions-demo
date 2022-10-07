@@ -25,7 +25,9 @@ public class CouponsFunction {
       produces = MediaType.APPLICATION_JSON_VALUE,
       value = "/issued")
   public ResponseEntity<String> create(@RequestBody String json) {
+    System.out.println("----------------------------------------");
     System.out.println("HERE IS THE OBJECT JSON: " + json);
+    System.out.println("----------------------------------------");
 
     return new ResponseEntity<>("OK", HttpStatus.CREATED);
   }

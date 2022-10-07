@@ -24,7 +24,9 @@ func main() {
 			return
 		}
 
+		fmt.Printf("----------------------------------------")
 		fmt.Printf("HERE IS THE OBJECT JSON: %s\n", jsonData)
+		fmt.Printf("----------------------------------------")
 
 		c.String(http.StatusOK, "OK")
 	})
