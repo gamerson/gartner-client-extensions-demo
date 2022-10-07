@@ -11,3 +11,5 @@ coupon-function-springboot:
 runtime:
   type: springboot
   workload: deployment
+  cpu: 500m
+  memory: 256Mi

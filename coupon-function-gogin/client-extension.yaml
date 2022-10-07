@@ -19,3 +19,5 @@ runtime:
   watch:
     - "main.go"
   workload: deployment
+  cpu: 100m
+  memory: 100Mi
