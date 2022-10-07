@@ -21,7 +21,14 @@ app.get('/', function(req, res) {
 });
 
 app.post('/coupons/issued', function(req, res) {
-  logger.info("HERE IS THE OBJECT JSON: " + JSON.stringify(req.body));
+  const couponObject = req.body
+
+  const status = couponObject.objectEntry.values.issued ? 'issued' : 'not issued';
+  const updatedDate = couponObject.objectEntry.modifiedDate || couponObject.objectEntry.createDate
+  const msg = `The status coupon '${couponObject.objectEntry.objectEntryId}' changed to '${status}' by '${couponObject.objectEntry.statusByUserName}' at '${updatedDate}'`;
+
+  logger.info(msg)
+
   res.status(200).send('OK');
 });
 
