@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -24,10 +25,41 @@ func main() {
 			return
 		}
 
-		fmt.Printf("HERE IS THE OBJECT JSON: %s\n", jsonData)
+		var couponObject map[string]interface{}
+		if err := json.Unmarshal(jsonData, &couponObject); err != nil {
+			fmt.Println(err)
+		}
+
+		objectEntry := couponObject["objectEntry"].(map[string]interface{})
+		values := objectEntry["values"].(map[string]interface{})
+		issued := values["issued"].(bool)
+
+		var modifiedDate string
+		if value, isMapContainsKey := objectEntry["modifiedDate"].(string); isMapContainsKey {
+			modifiedDate = value
+		}
+
+		createDate := objectEntry["createDate"].(string)
+		objectEntryId := int(objectEntry["objectEntryId"].(float64))
+		statusByUserName := objectEntry["statusByUserName"].(string)
+
+		var status = "not issued"
+		if issued {
+			status = "issued"
+		}
+
+		var updatedDate = modifiedDate
+		if updatedDate == "" {
+			updatedDate = createDate
+		}
+
+		msg := fmt.Sprintf("The status coupon '%d' changed to '%s' by '%s' at '%s'", objectEntryId, status, statusByUserName, updatedDate)
+
+		fmt.Println(msg)
 
 		c.String(http.StatusOK, "OK")
 	})
+
 	router.Run()
 }
 
