@@ -40,7 +40,7 @@ func main() {
 		}
 
 		createDate := objectEntry["createDate"].(string)
-		objectEntryId := int(objectEntry["objectEntryId"].(float64))
+		code := values["code"].(string)
 		statusByUserName := objectEntry["statusByUserName"].(string)
 
 		var status = "not issued"
@@ -53,7 +53,7 @@ func main() {
 			updatedDate = createDate
 		}
 
-		msg := fmt.Sprintf("The status coupon '%d' changed to '%s' by '%s' at '%s'", objectEntryId, status, statusByUserName, updatedDate)
+		msg := fmt.Sprintf("The status coupon '%s' changed to '%s' by '%s' at '%s'", code, status, statusByUserName, updatedDate)
 
 		fmt.Println(msg)
 
