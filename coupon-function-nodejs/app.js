@@ -25,7 +25,7 @@ app.post('/coupons/issued', function(req, res) {
 
   const status = couponObject.objectEntry.values.issued ? 'issued' : 'not issued';
   const updatedDate = couponObject.objectEntry.modifiedDate || couponObject.objectEntry.createDate;
-  const msg = `The status coupon '${couponObject.objectEntry.objectEntryId}' changed to '${status}' by '${couponObject.objectEntry.statusByUserName}' at '${updatedDate}'`;
+  const msg = `The status coupon '${couponObject.objectEntry.values.code}' changed to '${status}' by '${couponObject.objectEntry.statusByUserName}' at '${updatedDate}'`;
 
   logger.info(msg);
 

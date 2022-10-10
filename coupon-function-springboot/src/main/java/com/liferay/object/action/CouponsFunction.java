@@ -36,7 +36,7 @@ public class CouponsFunction {
     JsonNode jsonNode = objectMapper.readTree(json);
 
     JsonNode objectEntry = jsonNode.get("objectEntry");
-    String objectEntryId = objectEntry.get("objectEntryId").asText();
+    String objectEntryName = objectEntry.get("values").get("code").asText();
     String statusByUserName = objectEntry.get("statusByUserName").asText();
 
     String status = "not issued";
@@ -58,7 +58,7 @@ public class CouponsFunction {
       catch (Throwable t2) {}
     }
 
-    String msg = MessageFormat.format("The status coupon \'{0}\' changed to \'{1}\' by \'{2}\' at \'{3}\'", objectEntryId, status, statusByUserName, updatedDate);
+    String msg = String.format("The status coupon '%s' change to '%s' by '%s' at '%s'", objectEntryName, status, statusByUserName, updatedDate);
     System.out.println(msg);
     return new ResponseEntity<>(msg, HttpStatus.CREATED);
   }
