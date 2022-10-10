@@ -25,6 +25,8 @@ repositories {
   } 
 }
 
-assembleClientExtension {
-  from bootJar
-}
+try {
+  tasks.named("assembleClientExtension") {
+    from bootJar
+  }
+} catch (Exception e) {}
