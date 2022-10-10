@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.get('/', function(req, res) {
-  logger.info("READY");
+  logger.info('READY');
   res.status(200).send('READY');
 });
 
@@ -24,10 +24,10 @@ app.post('/coupons/issued', function(req, res) {
   const couponObject = req.body
 
   const status = couponObject.objectEntry.values.issued ? 'issued' : 'not issued';
-  const updatedDate = couponObject.objectEntry.modifiedDate || couponObject.objectEntry.createDate
+  const updatedDate = couponObject.objectEntry.modifiedDate || couponObject.objectEntry.createDate;
   const msg = `The status coupon '${couponObject.objectEntry.objectEntryId}' changed to '${status}' by '${couponObject.objectEntry.statusByUserName}' at '${updatedDate}'`;
 
-  logger.info(msg)
+  logger.info(msg);
 
   res.status(200).send('OK');
 });
