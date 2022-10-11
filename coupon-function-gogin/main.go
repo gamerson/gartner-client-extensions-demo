@@ -21,13 +21,13 @@ func main() {
 
 		if err != nil {
 			c.String(http.StatusInternalServerError, err.Error())
-
 			return
 		}
 
 		var couponObject map[string]interface{}
 		if err := json.Unmarshal(jsonData, &couponObject); err != nil {
-			fmt.Println(err)
+			c.String(http.StatusInternalServerError, err.Error())
+			return
 		}
 
 		objectEntry := couponObject["objectEntry"].(map[string]interface{})
