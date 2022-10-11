@@ -95,6 +95,24 @@
             "label": "never-ran",
             "label_i18n": "Never Ran"
           }
+        },
+        {
+          "active" : true,
+          "dateCreated" : "2022-10-11T15:20:56Z",
+          "dateModified" : "2022-10-11T15:21:43Z",
+          "description" : "Generatic Webhook pointing to GCP function",
+          "id" : 47479,
+          "name" : "webhook.gcp",
+          "objectActionExecutorKey" : "webhook",
+          "objectActionTriggerKey" : "onAfterUpdate",
+          "parameters" : {
+            "url" : "https://print-coupon-issuer-cfddjkeglq-lm.a.run.app"
+          },
+          "status" : {
+            "code" : 1,
+            "label" : "success",
+            "label_i18n" : "Success"
+          }
         }
       ],
       "objectFields": [
