@@ -9,11 +9,9 @@ coupon-function-gogin:
   oauth2Application: coupon-function-gogin-user-agent
 
 assemble:
-  - from: "."
-    include:
+  - include:
       - "go*"
       - "*.go"
-    into: "."
 
 runtime:
   watch:

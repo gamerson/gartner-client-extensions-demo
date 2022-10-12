@@ -9,12 +9,10 @@ coupon-function-nodejs:
   oauth2Application: coupon-function-user-agent
 
 assemble:
-  - from: "."
-    include:
+  - include:
       - "*.js"
       - "*.json"
       - "bin/*"
-    into: "."
 
 runtime:
   port: 3000
