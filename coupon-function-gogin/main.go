@@ -17,6 +17,10 @@ var router = setup()
 
 func main() {
 	router.POST("/coupons/issued", func(c *gin.Context) {
+		authorization := c.Request.Header.Get("Authorization")
+
+		fmt.Println("Authorization: " + authorization)
+
 		jsonData, err := ioutil.ReadAll(c.Request.Body)
 
 		if err != nil {
