@@ -12,6 +12,7 @@ assemble:
   - include:
       - "go*"
       - "*.go"
+      - "*.client-extension-config.json"
 
 runtime:
   watch:

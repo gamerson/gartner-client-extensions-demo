@@ -1,0 +1,5 @@
+{
+  "com.liferay.FooConfiguration~bar" : {
+    "fizz" : "buzz"
+  }
+}
