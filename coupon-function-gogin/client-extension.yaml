@@ -14,11 +14,11 @@ machine-workflow-action-headless-server:
     - C_Coupon.everything
 
 assemble:
-    include:
-      - "go.mod"
-      - "go.sum"
-      - "*.go"
-      - "*.client-extension-config.json"
+  - include:
+    - "*.client-extension-config.json"
+    - "*.go"
+    - "go.mod"
+    - "go.sum"
 
 runtime:
   watch:
