@@ -1,0 +1,10 @@
+{
+  "com.liferay.portal.funcio.internal.configuration.FuncioActionExecutorFactoryConfiguration~machine-workflow-action" : {
+    "baseURL" : "${portalURL}/o/coupon-function-gogin",
+    "description" : "",
+    "dxp.lxc.liferay.com.virtualInstanceId" : "default",
+    "name" : "",
+    "oauth2Application" : "machine-workflow-action-headless-server",
+    "resourcePath" : "/workflow/action"
+  }
+}

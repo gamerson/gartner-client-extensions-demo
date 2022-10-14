@@ -8,11 +8,17 @@ coupon-function-gogin:
   resourcePath: /coupons/issued
   oauth2Application: coupon-function-gogin-user-agent
 
+machine-workflow-action-headless-server:
+  type: oauthApplicationHeadlessServer
+  scopes:
+    - C_Coupon.everything
+
 assemble:
   - include:
-      - "go*"
-      - "*.go"
-      - "*.client-extension-config.json"
+    - "*.client-extension-config.json"
+    - "*.go"
+    - "go.mod"
+    - "go.sum"
 
 runtime:
   watch:
