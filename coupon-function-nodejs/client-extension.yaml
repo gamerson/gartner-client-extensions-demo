@@ -15,6 +15,7 @@ assemble:
       - "bin/*"
 
 runtime:
+  deps: ['coupon-definition']
   port: 3000
   watch:
     - "app.js"
