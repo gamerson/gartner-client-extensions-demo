@@ -6,7 +6,7 @@ coupon-function-gogin-user-agent:
 coupon-function-gogin:
   type: objectAction
   resourcePath: /coupons/issued
-  oauth2Application: coupon-function-gogin-user-agent
+  oAuth2ApplicationExternalReferenceCode: coupon-function-gogin-user-agent
 
 machine-workflow-action-headless-server:
   type: oauthApplicationHeadlessServer

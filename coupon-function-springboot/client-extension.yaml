@@ -6,7 +6,7 @@ coupon-function-springboot-user-agent:
 coupon-function-springboot:
   type: objectAction
   resourcePath: /coupons/issued
-  oauth2Application: coupon-function-springboot-user-agent
+  oAuth2ApplicationExternalReferenceCode: coupon-function-springboot-user-agent
 
 runtime:
   deps: ['coupon-definition']

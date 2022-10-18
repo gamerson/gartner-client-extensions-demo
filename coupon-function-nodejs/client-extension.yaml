@@ -6,7 +6,7 @@ coupon-function-nodejs-user-agent:
 coupon-function-nodejs:
   type: objectAction
   resourcePath: /coupons/issued
-  oauth2Application: coupon-function-nodejs-user-agent
+  oAuth2ApplicationExternalReferenceCode: coupon-function-nodejs-user-agent
 
 assemble:
   - include:
