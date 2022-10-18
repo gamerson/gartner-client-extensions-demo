@@ -82,7 +82,12 @@ func WorkflowAction(c *gin.Context) {
 	c.String(http.StatusOK, "OK")
 }
 
+func Ready(c *gin.Context) {
+	c.String(http.StatusOK, "READY")
+}
+
 func main() {
+	router.GET("/", Ready)
 	router.POST("/coupons/issued", CouponIssued)
 	router.POST("/workflow/action", WorkflowAction)
 
