@@ -3,7 +3,7 @@ FROM adoptopenjdk/openjdk11:jre-11.0.14.1_1
 ENV DEBUG_PORT=""
 
 RUN apt-get update && \
-	apt-get install -y tini libnss3-tools && \
+	apt-get install -y tini && \
 	rm -rf /var/lib/apt/lists/*
 
 RUN \
