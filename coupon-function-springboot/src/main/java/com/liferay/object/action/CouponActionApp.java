@@ -23,7 +23,7 @@ public class CouponActionApp {
 
 
     Path dxpMetadataPath = Paths.get("/etc/liferay/lxc/dxp-metadata");
-    
+
     try {
 
 		Files.list(dxpMetadataPath).filter(p -> p.getFileName().toString().startsWith("com.liferay.lxc.dxp")).forEach(path -> {
@@ -37,11 +37,11 @@ public class CouponActionApp {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
-    
+
     Path initMetadataPath = Paths.get("/etc/liferay/lxc/ext-init-metadata");
-    
+
     try {
-		Files.list(initMetadataPath).filter(p -> p.getFileName().toString().startsWith("coupon-function")).forEach(path -> {
+		Files.list(initMetadataPath).filter(p -> !p.getFileName().toString().startsWith("..")).forEach(path -> {
 			System.out.println(path + " -> ");
 			try {
 				System.out.println(Files.readString(path));
