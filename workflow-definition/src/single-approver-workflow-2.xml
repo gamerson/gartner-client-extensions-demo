@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+
+<workflow-definition
+	xmlns="urn:liferay.com:liferay-workflow_7.4.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:liferay.com:liferay-workflow_7.4.0 http://www.liferay.com/dtd/liferay-workflow-definition_7_4_0.xsd"
+>
+	<description>A single approver can approve a workflow content.</description>
+	<version>37</version>
+	<state>
+		<id>created</id>
+		<metadata>
+			<![CDATA[
+				{
+					"xy": [
+						165,
+						76
+					]
+				}
+			]]>
+		</metadata>
+		<initial>true</initial>
+		<labels>
+			<label language-id="en_US">
+				created
+			</label>
+		</labels>
+		<transitions>
+			<transition>
+				<labels>
+					<label language-id="en_US">
+						review
+					</label>
+				</labels>
+				<id>created_review_review</id>
+				<target>machine-condition</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</state>
+	<state>
+		<id>approved</id>
+		<metadata>
+			<![CDATA[
+				{
+					"xy": [
+						539,
+						74
+					],
+					"terminal": true
+				}
+			]]>
+		</metadata>
+		<actions>
+			<action>
+				<name>approve</name>
+				<script>
+					<![CDATA[
+						import com.liferay.portal.kernel.workflow.WorkflowConstants;
+						import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
+
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("approved"), workflowContext);
+					]]>
+				</script>
+				<script-language>groovy</script-language>
+				<execution-type>onEntry</execution-type>
+			</action>
+		</actions>
+		<labels>
+			<label language-id="en_US">
+				approved
+			</label>
+		</labels>
+	</state>
+	<task>
+		<id>update</id>
+		<metadata>
+			<![CDATA[
+				{
+					"xy": [
+						164,
+						533
+					]
+				}
+			]]>
+		</metadata>
+		<actions>
+			<action>
+				<name>reject</name>
+				<script>
+					<![CDATA[
+						import com.liferay.portal.kernel.workflow.WorkflowConstants;
+						import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
+
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("denied"), workflowContext);
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("pending"), workflowContext);
+					]]>
+				</script>
+				<script-language>groovy</script-language>
+				<execution-type>onAssignment</execution-type>
+			</action>
+			<notification>
+				<name>Creator Modification Notification</name>
+				<template>
+					<![CDATA[Your submission was rejected by ${userName}, please modify and resubmit.]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<notification-type>user-notification</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<user />
+		</assignments>
+		<labels>
+			<label language-id="en_US">
+				update
+			</label>
+		</labels>
+		<transitions>
+			<transition>
+				<labels>
+					<label language-id="en_US">
+						resubmit
+					</label>
+				</labels>
+				<id>resubmit</id>
+				<target>machine-condition</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</task>
+	<task>
+		<id>machine-condition</id>
+		<description>Delegate condition check to a machine.</description>
+		<metadata>
+			<![CDATA[
+				{
+					"xy": [
+						166,
+						291
+					]
+				}
+			]]>
+		</metadata>
+		<actions>
+			<action>
+				<name>Machine Action</name>
+				<description></description>
+				<script>
+					<![CDATA[keep]]>
+				</script>
+				<script-language>function#machine-workflow-action</script-language>
+				<priority>1</priority>
+				<execution-type>onEntry</execution-type>
+			</action>
+		</actions>
+		<assignments>
+			<user>
+				<email-address>default-service-account@dxp.localdev.me</email-address>
+			</user>
+		</assignments>
+		<labels>
+			<label language-id="en_US">
+				Machine Condition
+			</label>
+		</labels>
+		<transitions>
+			<transition>
+				<labels>
+					<label language-id="en_US">
+						approve
+					</label>
+				</labels>
+				<id>approve</id>
+				<target>approved</target>
+				<default>true</default>
+			</transition>
+			<transition>
+				<labels>
+					<label language-id="en_US">
+						reject
+					</label>
+				</labels>
+				<id>reject</id>
+				<target>update</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+</workflow-definition>

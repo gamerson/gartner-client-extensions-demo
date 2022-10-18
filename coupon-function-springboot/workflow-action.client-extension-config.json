@@ -1,6 +1,6 @@
 {
-  "com.liferay.portal.funcio.internal.configuration.FuncioActionExecutorFactoryConfiguration~machine-workflow-action" : {
-    "baseURL" : "${portalURL}/o/coupon-function-gogin",
+  "com.liferay.portal.funcio.internal.workflow.configuration.FuncioActionExecutorFactoryConfiguration~machine-workflow-action" : {
+    "baseURL" : "${portalURL}/o/coupon-function-springboot",
     "description" : "",
     "dxp.lxc.liferay.com.virtualInstanceId" : "default",
     "name" : "",

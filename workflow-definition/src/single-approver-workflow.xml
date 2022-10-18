@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+
+<workflow-definition xmlns="urn:liferay.com:liferay-workflow_7.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:liferay.com:liferay-workflow_7.4.0 http://www.liferay.com/dtd/liferay-workflow-definition_7_4_0.xsd">
+	<description>A single approver can approve a workflow content.</description>
+	<version>29</version>
+	<state>
+		<name>created</name>
+		<metadata>
+			<![CDATA[
+				{
+					"xy": [
+						165,
+						76
+					]
+				}
+			]]>
+		</metadata>
+		<initial>true</initial>
+		<labels>
+			<label language-id="en_US">created</label>
+		</labels>
+		<transitions>
+			<transition>
+				<labels>
+					<label language-id="en_US">review</label>
+				</labels>
+				<name>created_review_review</name>
+				<target>machine-condition</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</state>
+	<state>
+		<name>approved</name>
+		<metadata>
+			<![CDATA[
+				{
+					"xy": [
+						539,
+						74
+					],
+					"terminal": true
+				}
+			]]>
+		</metadata>
+		<actions>
+			<action>
+				<name>approve</name>
+				<script>
+					<![CDATA[
+						import com.liferay.portal.kernel.workflow.WorkflowConstants;
+						import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
+
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("approved"), workflowContext);
+					]]>
+				</script>
+				<script-language>groovy</script-language>
+				<execution-type>onEntry</execution-type>
+			</action>
+		</actions>
+		<labels>
+			<label language-id="en_US">approved</label>
+		</labels>
+	</state>
+	<task>
+		<name>update</name>
+		<metadata>
+			<![CDATA[
+				{
+					"xy": [
+						164,
+						533
+					]
+				}
+			]]>
+		</metadata>
+		<actions>
+			<action>
+				<name>reject</name>
+				<script>
+					<![CDATA[
+						import com.liferay.portal.kernel.workflow.WorkflowConstants;
+						import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
+
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("denied"), workflowContext);
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.getLabelStatus("pending"), workflowContext);
+					]]>
+				</script>
+				<script-language>groovy</script-language>
+				<execution-type>onAssignment</execution-type>
+			</action>
+			<notification>
+				<name>Creator Modification Notification</name>
+				<template>
+					<![CDATA[Your submission was rejected by ${userName}, please modify and resubmit.]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<notification-type>user-notification</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<user />
+		</assignments>
+		<labels>
+			<label language-id="en_US">update</label>
+		</labels>
+		<transitions>
+			<transition>
+				<labels>
+					<label language-id="en_US">resubmit</label>
+				</labels>
+				<name>resubmit</name>
+				<target>machine-condition</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</task>
+	<task>
+		<name>machine-condition</name>
+		<description>Delegate condition check to a machine.</description>
+		<metadata>
+			<![CDATA[
+				{
+					"xy": [
+						166,
+						291
+					]
+				}
+			]]>
+		</metadata>
+		<actions>
+			<action>
+				<name>machine-condition</name>
+				<description />
+				<script>
+					<![CDATA[import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import java.net.URL;
+import org.osgi.framework.FrameworkUtil;
+import com.liferay.portal.workflow.kaleo.runtime.scripting.internal.util.KaleoScriptingEvaluator;
+
+def bc = FrameworkUtil.getBundle(KaleoScriptingEvaluator.class).getBundleContext()
+
+def oauth2ApplicationLS =bc.getService(bc.getServiceReference("com.liferay.oauth2.provider.service.OAuth2ApplicationLocalService"))
+
+def oAuth2Application = oauth2ApplicationLS.fetchOAuth2ApplicationByExternalReferenceCode(
+	Long.valueOf(companyId), "machine-workflow-action-headless-server")
+
+def localOAuthClient = bc.getService(bc.getServiceReference("com.liferay.oauth.client.LocalOAuthClient"))
+
+def rootJSON = JSONFactoryUtil.createJSONObject()
+
+def token = ""
+
+this.binding.variables.each {k,v ->
+	println("$k = $v")
+
+	if (k == "workflowTaskAssignees") {
+		v.each {
+			if (it.assigneeClassName == "com.liferay.portal.kernel.model.User") {
+				String requestTokens = localOAuthClient.requestTokens(
+					Long.valueOf(userId), oAuth2Application)
+
+				if (requestTokens) {
+					def requestTokensJSONObject = JSONFactoryUtil.createJSONObject(
+						requestTokens);
+
+					token = "Bearer ${requestTokensJSONObject.getString("access_token")}";
+				}
+			}
+		}
+	}
+
+	if ((v instanceof Number) || (v instanceof String)) {
+		rootJSON.put(k, v)
+
+		return;
+	}
+
+	rootJSON.put(k, JSONFactoryUtil.createJSONObject(JSONFactoryUtil.serialize(v)))
+}
+
+def post = new URL("https://coupon-function-springboot.localdev.me/workflow/action").openConnection();
+post.setRequestMethod("POST")
+post.setDoOutput(true)
+post.setRequestProperty("Content-Type", "application/json")
+
+if (token) {
+	post.setRequestProperty("Authorization", token)
+}
+
+post.getOutputStream().write(rootJSON.toJSONString().getBytes("UTF-8"));
+def postRC = post.getResponseCode();
+println(postRC);
+if (postRC.equals(200)) {
+    println(post.getInputStream().getText());
+}]]>
+				</script>
+				<script-language>groovy</script-language>
+				<priority>1</priority>
+				<execution-type>onEntry</execution-type>
+			</action>
+		</actions>
+		<assignments>
+			<user>
+				<email-address>test@dxp.localdev.me</email-address>
+			</user>
+		</assignments>
+		<labels>
+			<label language-id="en_US">Machine Condition</label>
+		</labels>
+		<transitions>
+			<transition>
+				<labels>
+					<label language-id="en_US">approve</label>
+				</labels>
+				<name>approve</name>
+				<target>approved</target>
+				<default>true</default>
+			</transition>
+			<transition>
+				<labels>
+					<label language-id="en_US">reject</label>
+				</labels>
+				<name>reject</name>
+				<target>update</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+</workflow-definition>
