@@ -44,6 +44,7 @@
       "objectActions": [
         {
           "active": true,
+          "conditionExpression": "issued",
           "dateCreated": "2022-09-22T18:47:52Z",
           "dateModified": "2022-09-23T03:48:12Z",
           "description": "Fire this Java/SpringBoot function when a coupon is issued.",
@@ -62,6 +63,7 @@
         },
         {
           "active": true,
+          "conditionExpression": "issued",
           "dateCreated": "2022-09-22T18:47:52Z",
           "dateModified": "2022-09-23T03:48:12Z",
           "description": "Fire this NodeJS/Express function when a coupon is issued.",
@@ -80,6 +82,7 @@
         },
         {
           "active": true,
+          "conditionExpression": "issued",
           "dateCreated": "2022-09-22T18:47:52Z",
           "dateModified": "2022-09-23T03:48:12Z",
           "description": "Fire this Go/Gin function when a coupon is issued.",
@@ -98,6 +101,7 @@
         },
         {
           "active" : true,
+          "conditionExpression": "issued",
           "dateCreated" : "2022-10-11T15:20:56Z",
           "dateModified" : "2022-10-11T15:21:43Z",
           "description" : "Generatic Webhook pointing to GCP function",
