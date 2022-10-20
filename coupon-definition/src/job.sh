@@ -13,6 +13,14 @@ echo "########################"
 echo "JOB DIR = $JOB_DIR"
 
 echo "########################"
+DATA_FILES=$(find . -type f -name *.data.batch-engine.json)
+
+if [ "${DATA_FILES}" == "" ]; then
+	echo "There are no data files. Exiting with nothing to do!"
+	exit 0
+fi
+
+echo "########################"
 if [ "$OAUTH2_JOB_PROFILE" == "" ];then
 	cat <<EOF
 No OAuth Profile was selected for JOB processing!
@@ -171,6 +179,6 @@ process_batch() {
 	fi
 }
 
-for i in $(find . -type f -name *.data.batch-engine.json); do
+for i in $DATA_FILES; do
 	process_batch $i
 done
