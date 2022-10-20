@@ -5,6 +5,7 @@ OAUTH2_PROFILE="workflow-definition"
 set -e
 
 VERBOSE_FLAG="-v"
+CA_CERT="../rootCA.pem"
 
 JOB_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -43,8 +44,9 @@ TOKEN_RESULT=$(\
 		"https://${DXP_HOST}/o/oauth2/token" \
 		-H 'Content-type: application/x-www-form-urlencoded' \
 		-d "grant_type=client_credentials&client_id=${OAUTH2_CLIENTID}&client_secret=${OAUTH2_SECRET}" \
-		--cacert ../ca.crt \
+		--cacert ${CA_CERT} \
 		| jq -r '.')
+
 echo "TOKEN_RESULT: ${TOKEN_RESULT}"
 
 ACCESS_TOKEN=$(jq -r '.access_token' <<< $TOKEN_RESULT)
@@ -74,7 +76,7 @@ process_batch() {
 	BATCH_HREF="/${BATCH_HREF#*://*/}"
 	echo "BATCH_HREF=${BATCH_HREF}"
 
-	local PARAMETERS=$(jq -r '[.parameters | map_values(. | @uri) | to_entries[] | .key + "=" + .value] | join("&")' ${1})
+	local PARAMETERS=$(jq -r '[map_values(. | @uri) | to_entries[] | .key + "=" + .value] | join("&")' ${1}.parameters)
 	echo "PARAMETERS=${PARAMETERS}"
 
 	local RESULT=$(\
@@ -87,7 +89,7 @@ process_batch() {
 			-H 'Content-Type: application/json' \
 			-H "Authorization: Bearer ${ACCESS_TOKEN}" \
 			-d "${BATCH_ITEMS}" \
-			--cacert ../ca.crt \
+			--cacert ${CA_CERT} \
 			| jq -r '.')
 
 	if [ "${RESULT}x" == "x" ]; then
@@ -110,7 +112,7 @@ process_batch() {
 				"https://${DXP_HOST}/o/headless-batch-engine/v1.0/import-task/by-external-reference-code/${BATCH_EXTERNAL_REFERENCE_CODE}" \
 				-H 'accept: application/json' \
 				-H "Authorization: Bearer ${ACCESS_TOKEN}" \
-				--cacert ../ca.crt \
+				--cacert ${CA_CERT} \
 				| jq -r '.')
 
 		BATCH_STATUS=$(jq -r '.executeStatus//.status' <<< "$RESULT")
@@ -129,7 +131,7 @@ process_batch() {
 					"https://${DXP_HOST}${BASE_HREF}/by-external-reference-code/${i}" \
 					-H 'accept: application/json' \
 					-H "Authorization: Bearer ${ACCESS_TOKEN}" \
-					--cacert ../ca.crt \
+					--cacert ${CA_CERT} \
 					| jq -r .)
 
 			STATUS=$(jq -r '.status.code' <<< $ENTRY)
