@@ -99,12 +99,21 @@ process_batch() {
 	BATCH_HREF="/${BATCH_HREF#*://*/}"
 	echo "BATCH_HREF=${BATCH_HREF}"
 
+	local PARAMETERS=$(jq -r '[map_values(. | @uri) | to_entries[] | .key + "=" + .value] | join("&")' ${1}.parameters 2>/dev/null)
+	echo "PARAMETERS=${PARAMETERS}"
+
+	if [ "$PARAMETERS" != "" ]; then
+		PARAMETERS="?${PARAMETERS}"
+	else
+		PARAMETERS="?createStrategy=UPSERT"
+	fi
+
 	local RESULT=$(\
 		curl \
 			-s \
 			$CURL_FLAGS \
 			-X 'POST' \
-			"https://${DXP_HOST}${BATCH_HREF}?createStrategy=UPSERT" \
+			"https://${DXP_HOST}${BATCH_HREF}${PARAMETERS}" \
 			-H 'accept: application/json' \
 			-H 'Content-Type: application/json' \
 			-H "Authorization: Bearer ${ACCESS_TOKEN}" \
