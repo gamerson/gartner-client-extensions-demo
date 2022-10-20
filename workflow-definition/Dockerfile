@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-COPY ca.crt .
+COPY rootCA.pem .
 COPY job.sh *.data.batch-engine.json /src/
 
 RUN \
