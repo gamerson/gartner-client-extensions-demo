@@ -1,10 +1,8 @@
 {
   "com.liferay.portal.funcio.internal.workflow.configuration.FuncioActionExecutorFactoryConfiguration~machine-workflow-action" : {
     "baseURL" : "${portalURL}/o/coupon-function-springboot",
-    "description" : "",
     "dxp.lxc.liferay.com.virtualInstanceId" : "default",
-    "name" : "",
-    "oauth2Application" : "machine-workflow-action-headless-server",
+    "oAuth2ApplicationExternalReferenceCode" : "machine-workflow-action-headless-server",
     "resourcePath" : "/workflow/action"
   }
 }
