@@ -1,10 +1,9 @@
 #!/bin/bash
 
-OAUTH2_PROFILE="coupon-definition"
-
 set -e
 
 # CURL_FLAGS        sets the curl commands to verbose mode
+# OAUTH2_JOB_PROFILE  sets the oauth profile to use
 
 CA_CERT="../rootCA.pem"
 
@@ -14,17 +13,40 @@ echo "########################"
 echo "JOB DIR = $JOB_DIR"
 
 echo "########################"
+if [ "$OAUTH2_JOB_PROFILE" == "" ];then
+	cat <<EOF
+No OAuth Profile was selected for JOB processing!
+
+Please set the environment variable OAUTH2_JOB_PROFILE in your
+client-extension.yaml.
+
+e.g.
+
+runtime:
+  workload: job
+  env:
+  - name: OAUTH2_JOB_PROFILE
+    value: "foo-oauth-application-headless-server"
+
+
+EOF
+	exit 1
+else
+	echo "OAUTH2_JOB_PROFILE = ${OAUTH2_JOB_PROFILE}"
+fi
+
+echo "########################"
 echo "Mounted Config:"
 find /etc/liferay/lxc/ext-init-metadata -type l -not -ipath "*/..data" -print -exec sed 's/^/    /' {} \; -exec echo "" \;
 find /etc/liferay/lxc/dxp-metadata -type l -not -ipath "*/..data" -print -exec sed 's/^/    /' {} \; -exec echo "" \;
 
 echo "########################"
 DXP_HOST=$(cat /etc/liferay/lxc/dxp-metadata/com.liferay.lxc.dxp.mainDomain)
-OAUTH2_CLIENTID=$(cat /etc/liferay/lxc/ext-init-metadata/${OAUTH2_PROFILE}.oauth2.headless.server.client.id)
-OAUTH2_SECRET=$(cat /etc/liferay/lxc/ext-init-metadata/${OAUTH2_PROFILE}.oauth2.headless.server.client.secret)
+OAUTH2_CLIENTID=$(cat /etc/liferay/lxc/ext-init-metadata/${OAUTH2_JOB_PROFILE}.oauth2.headless.server.client.id)
+OAUTH2_SECRET=$(cat /etc/liferay/lxc/ext-init-metadata/${OAUTH2_JOB_PROFILE}.oauth2.headless.server.client.secret)
 
 echo "DXP_HOST: ${DXP_HOST}"
-echo "OAUTH2_PROFILE: ${OAUTH2_PROFILE}"
+echo "OAUTH2_JOB_PROFILE: ${OAUTH2_JOB_PROFILE}"
 echo "OAUTH2_CLIENTID: ${OAUTH2_CLIENTID}"
 echo "OAUTH2_SECRET: ${OAUTH2_SECRET}"
 
