@@ -4,7 +4,7 @@ OAUTH2_PROFILE="workflow-definition"
 
 set -e
 
-VERBOSE_FLAG="-v"
+# CURL_FLAGS        sets the curl commands to verbose mode
 CA_CERT="../rootCA.pem"
 
 JOB_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
@@ -39,7 +39,7 @@ echo "########################"
 TOKEN_RESULT=$(\
 	curl \
 		-s \
-		$VERBOSE_FLAG \
+		$CURL_FLAGS \
 		-X POST \
 		"https://${DXP_HOST}/o/oauth2/token" \
 		-H 'Content-type: application/x-www-form-urlencoded' \
@@ -82,7 +82,7 @@ process_batch() {
 	local RESULT=$(\
 		curl \
 			-s \
-			$VERBOSE_FLAG \
+			$CURL_FLAGS \
 			-X 'POST' \
 			"https://${DXP_HOST}${BATCH_HREF}?${PARAMETERS}" \
 			-H 'accept: application/json' \
@@ -107,7 +107,7 @@ process_batch() {
 		RESULT=$(\
 			curl \
 				-s \
-				$VERBOSE_FLAG \
+				$CURL_FLAGS \
 				-X 'GET' \
 				"https://${DXP_HOST}/o/headless-batch-engine/v1.0/import-task/by-external-reference-code/${BATCH_EXTERNAL_REFERENCE_CODE}" \
 				-H 'accept: application/json' \
@@ -127,7 +127,7 @@ process_batch() {
 			ENTRY=$(
 				curl \
 					-s \
-					$VERBOSE_FLAG \
+					$CURL_FLAGS \
 					"https://${DXP_HOST}${BASE_HREF}/by-external-reference-code/${i}" \
 					-H 'accept: application/json' \
 					-H "Authorization: Bearer ${ACCESS_TOKEN}" \
@@ -145,7 +145,7 @@ process_batch() {
 				PUBLISHED=$(
 					curl \
 						-s \
-						$VERBOSE_FLAG \
+						$CURL_FLAGS \
 						-X 'POST' \
 						"https://${DXP_HOST}${BASE_HREF}/${ENTRY_ID}/publish" \
 						-H 'accept: application/json' \
