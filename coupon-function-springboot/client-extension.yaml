@@ -24,3 +24,5 @@ runtime:
   workload: deployment
   cpu: 500m
   memory: 256Mi
+  watch:
+  - "workflow-action.client-extension-config.json"
