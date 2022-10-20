@@ -9,3 +9,8 @@ coupon-definition:
 runtime:
   type: objectDefinition
   workload: job
+  env:
+  - name: OAUTH2_JOB_PROFILE
+    value: coupon-definition
+  - name: CURL_FLAGS
+    value: ""

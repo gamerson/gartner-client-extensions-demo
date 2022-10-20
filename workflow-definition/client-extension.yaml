@@ -13,3 +13,8 @@ assemble:
 runtime:
   type: objectDefinition
   workload: job
+  env:
+  - name: OAUTH2_JOB_PROFILE
+    value: workflow-definition
+  - name: CURL_FLAGS
+    value: ""
