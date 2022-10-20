@@ -13,6 +13,14 @@ echo "########################"
 echo "JOB DIR = $JOB_DIR"
 
 echo "########################"
+DATA_FILES=$(find . -type f -name *.data.batch-engine.json)
+
+if [ "${DATA_FILES}" == "" ]; then
+	echo "There are no data files. Exiting with nothing to do!"
+	exit 0
+fi
+
+echo "########################"
 if [ "$OAUTH2_JOB_PROFILE" == "" ];then
 	cat <<EOF
 No OAuth Profile was selected for JOB processing!
@@ -49,14 +57,6 @@ echo "DXP_HOST: ${DXP_HOST}"
 echo "OAUTH2_JOB_PROFILE: ${OAUTH2_JOB_PROFILE}"
 echo "OAUTH2_CLIENTID: ${OAUTH2_CLIENTID}"
 echo "OAUTH2_SECRET: ${OAUTH2_SECRET}"
-
-echo "########################"
-DATA_FILES=$(find . -type f -name *.data.batch-engine.json)
-
-if [ "${DATA_FILES}" == "" ]; then
-	echo "There are no data files. Exiting with nothing to do!"
-	exit 0
-fi
 
 echo "########################"
 TOKEN_RESULT=$(\
