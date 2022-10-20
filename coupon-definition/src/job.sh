@@ -6,6 +6,8 @@ set -e
 
 VERBOSE_FLAG=""
 
+CA_CERT="../rootCA.pem"
+
 JOB_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 echo "########################"
@@ -35,8 +37,9 @@ TOKEN_RESULT=$(\
 		"https://${DXP_HOST}/o/oauth2/token" \
 		-H 'Content-type: application/x-www-form-urlencoded' \
 		-d "grant_type=client_credentials&client_id=${OAUTH2_CLIENTID}&client_secret=${OAUTH2_SECRET}" \
-		--cacert ../rootCA.pem \
+		--cacert ${CA_CERT} \
 		| jq -r '.')
+
 echo "TOKEN_RESULT: ${TOKEN_RESULT}"
 
 ACCESS_TOKEN=$(jq -r '.access_token' <<< $TOKEN_RESULT)
@@ -76,7 +79,7 @@ process_batch() {
 			-H 'Content-Type: application/json' \
 			-H "Authorization: Bearer ${ACCESS_TOKEN}" \
 			-d "${BATCH_ITEMS}" \
-			--cacert ../rootCA.pem \
+			--cacert ${CA_CERT} \
 			| jq -r '.')
 
 	if [ "${RESULT}x" == "x" ]; then
@@ -99,7 +102,7 @@ process_batch() {
 				"https://${DXP_HOST}/o/headless-batch-engine/v1.0/import-task/by-external-reference-code/${BATCH_EXTERNAL_REFERENCE_CODE}" \
 				-H 'accept: application/json' \
 				-H "Authorization: Bearer ${ACCESS_TOKEN}" \
-				--cacert ../rootCA.pem \
+				--cacert ${CA_CERT} \
 				| jq -r '.')
 
 		BATCH_STATUS=$(jq -r '.executeStatus//.status' <<< "$RESULT")
@@ -118,7 +121,7 @@ process_batch() {
 					"https://${DXP_HOST}${BASE_HREF}/by-external-reference-code/${i}" \
 					-H 'accept: application/json' \
 					-H "Authorization: Bearer ${ACCESS_TOKEN}" \
-					--cacert ../rootCA.pem \
+					--cacert ${CA_CERT} \
 					| jq -r .)
 
 			STATUS=$(jq -r '.status.code' <<< $ENTRY)
@@ -137,7 +140,7 @@ process_batch() {
 						"https://${DXP_HOST}${BASE_HREF}/${ENTRY_ID}/publish" \
 						-H 'accept: application/json' \
 						-H "Authorization: Bearer ${ACCESS_TOKEN}" \
-						--cacert ../rootCA.pem \
+						--cacert ../ca.crt \
 						| jq -r .)
 
 				echo "PUBLISHED: ${ENTRY_ID}"
