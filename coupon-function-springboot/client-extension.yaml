@@ -20,7 +20,6 @@ assemble:
 
 runtime:
   deps: ['coupon-definition']
-  type: springboot
   workload: deployment
   cpu: 500m
   memory: 256Mi
