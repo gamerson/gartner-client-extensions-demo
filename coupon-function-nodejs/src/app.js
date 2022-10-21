@@ -16,8 +16,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.get('/', function(req, res) {
-  logger.info('READY');
-  res.status(200).send('READY');
+  logger.info('app.js');
+  res.status(200).send('app.js');
 });
 
 app.post('/coupons/issued', function(req, res) {

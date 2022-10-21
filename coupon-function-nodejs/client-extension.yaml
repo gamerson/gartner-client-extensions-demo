@@ -10,15 +10,16 @@ coupon-function-nodejs:
 
 assemble:
   - include:
-      - "*.js"
-      - "*.json"
       - "bin/*"
+      - "src/*"
+      - "*.json"
 
 runtime:
   deps: ['coupon-definition']
   port: 3000
   watch:
-    - "app.js"
+    - "src/"
+    - "package.json"
   workload: deployment
   cpu: 100m
   memory: 100Mi
