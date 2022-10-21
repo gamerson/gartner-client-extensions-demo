@@ -6,12 +6,8 @@ workflow-definition:
   type: oauthApplicationHeadlessServer
   userAccountEmailAddress: test@$[conf:dxp.lxc.liferay.com.virtualInstanceId]
 
-assemble:
-  - include:
-    - "ca.crt"
-
 runtime:
-  type: objectDefinition
+  type: configuration
   workload: job
   env:
   - name: OAUTH2_JOB_PROFILE
