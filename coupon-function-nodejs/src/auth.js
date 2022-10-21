@@ -2,7 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const jwktopem = require("jwk-to-pem");
 const jwt = require('jsonwebtoken');
-const logger = require('./log');
+const logger = require('./util/log');
 const path = require('path');
 
 async function authenticate(req, res, next) {

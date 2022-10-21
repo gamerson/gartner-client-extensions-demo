@@ -1,7 +1,7 @@
 const authenticate = require('./auth.js');
 const cookieParser = require('cookie-parser');
 const express = require('express');
-const logger = require('./log');
+const logger = require('./util/log');
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.use(authenticate);
 
 app.get('/', function(req, res) {
   logger.info('READY');
-  res.status(200).send('READY');
+  res.status(200).send('ARE YOU READY?');
 });
 
 app.post('/coupons/issued', function(req, res) {
