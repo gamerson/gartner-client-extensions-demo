@@ -3,9 +3,9 @@
 ## Install Prototype Liferay Client Extension CLI
 
 1. Download and install go: <https://go.dev/doc/install>
-2. Clone repo <https://github.com/rotty3000/lcectl>
+2. Clone repo <https://github.com/liferay/liferay-cli>
 3. Go into repo dir and execute `./gow install`
-4. Test with command `lcectl --version`
+4. Test with command `liferay --version`
 
 ## Mac/Windows Install/Configure Docker Desktop
 
@@ -20,19 +20,18 @@
 ## Bring up demo environment
 
 1. Clone repo <https://github.com/gamerson/gartner-client-extensions-demo>
-2. Execute `lcectl ext start -d /path/to/repos/gartner-client-extensions-demo`
-3. While environment is coming up, Install Localdev Root Certificate Authority to your browser
-
-* Install the developer ROOT CA into your browser
-* Chrome: Settings  > Privacy and security > Security > Manage Certificates > Authorities > Import > `$HOME/.lcectl/sources/localdev/k8s/tls/ca.crt`
-* Firefox: Settings > Privacy & Security > Security > View Certificates... > Authorities > Import > `$HOME/.lcectl/sources/localdev/k8s/tls/ca.crt`
+2. Execute `liferay runtime mkcert` in order to generate a wildcart certificate for `*.lfr.dev`
+3. Execute `liferay runtime mkcert --install` in order to install the local Root Certificate Authority into your OS's and browser's truststores
+4. Execute `liferay extension start -d /path/to/repos/gartner-client-extensions-demo`
+If this is your first time to run this command, this first time will take several minutes as images are downloaded and built
+5. Click the link that is shown in the terminal for Tilt UI
 
 After several minutes both DXP and all extensions should be green in the Tilt UI
 
 ## Demo Walkthrough
 
-1. Load DXP at <https://dxp.localdev.me>
-2. Login as test@dxp.localdev.me/test
+1. Load DXP at <https://dxp.lfr.dev>
+2. Login as test@dxp.lfr.dev/test
 3. Go to Applications > Coupons
 4. Add a new coupon
 5. Go to Tilt UI and look at the 3 function extensions and see the JSON payload of the added coupon
@@ -43,5 +42,6 @@ After several minutes both DXP and all extensions should be green in the Tilt UI
 
 ## Shutdown environment
 
-1. If you plan to run demo again shortly, you can just bring down extensions environment `lcectl ext stop`
-2. If you want to free up all docker desktop resources, you can shutdonw whole runtime `lcectl runtime delete`
+1. If you plan to run demo again shortly, you can just bring down extensions environment `liferay ext stop`
+2. If you want to free up all docker desktop resources, you can shutdonw whole runtime `liferay runtime delete`
+3. Run `docker image prune` and `docker builder prune` to reclaim some space
