@@ -1,27 +1,22 @@
+const authenticate = require('./auth.js');
 const cookieParser = require('cookie-parser');
 const express = require('express');
-const path = require('path');
-const winston = require('winston');
-
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [new winston.transports.Console()],
-});
+const logger = require('./util/log');
 
 const app = express();
 
 app.use(express.json({ limit: 64 * 1000 }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(authenticate);
 
 app.get('/', function(req, res) {
   logger.info('READY');
-  res.status(200).send('READY');
+  res.status(200).send('ARE YOU READY?');
 });
 
 app.post('/coupons/issued', function(req, res) {
-  const couponObject = req.body
+  const couponObject = req.body;
 
   const status = couponObject.objectEntry.values.issued ? 'issued' : 'not issued';
   const updatedDate = couponObject.objectEntry.modifiedDate || couponObject.objectEntry.createDate;

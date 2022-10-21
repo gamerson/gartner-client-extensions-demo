@@ -24,7 +24,8 @@ RUN npm install --only=production
 # RUN npm ci --only=production
 
 # Bundle app source
+COPY src/* /usr/src/app/
 COPY . .
 
 EXPOSE 3000
-CMD [ "node", "./bin/www" ]
+CMD [ "npm", "run", "startLocaldev" ]
