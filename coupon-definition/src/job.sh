@@ -31,7 +31,7 @@ client-extension.yaml.
 e.g.
 
 runtime:
-  workload: job
+  type: configuration
   env:
   - name: OAUTH2_JOB_PROFILE
     value: "foo-oauth-application-headless-server"

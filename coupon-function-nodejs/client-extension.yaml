@@ -15,10 +15,10 @@ assemble:
       - "bin/*"
 
 runtime:
+  type: service
   deps: ['coupon-definition']
   port: 3000
   watch:
     - "app.js"
-  workload: deployment
   cpu: 100m
   memory: 100Mi
