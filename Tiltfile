@@ -1,4 +1,3 @@
-# for more docs how to use this see: https://docs.tilt.dev/buttons.html
 load("ext://uibutton", "cmd_button", "text_input", "location")
 
 # This map will add additional ENV VARs to the dxp-server docker container
