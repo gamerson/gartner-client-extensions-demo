@@ -14,6 +14,7 @@ def after_all():
 
 
 def add_drop_db_button():
+    # api docs for adding UIButtons found here: https://docs.tilt.dev/buttons.html
     cmd_button(
         "Kill DXP && Drop Docker Volume!",
         argv=[
