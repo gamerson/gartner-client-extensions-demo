@@ -1,7 +1,8 @@
 # for more docs how to use this see: https://docs.tilt.dev/buttons.html
 load("ext://uibutton", "cmd_button", "text_input", "location")
 
-
+# The localdev Tiltfile will look for a Tiltfile in the root of the client extensions directory
+# if it exists, and there is a after_all() function it will be called after main Tiltfile is processed
 def after_all():
     add_drop_db_button()
 
