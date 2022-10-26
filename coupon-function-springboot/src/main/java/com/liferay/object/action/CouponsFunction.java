@@ -1,8 +1,5 @@
 package com.liferay.object.action;
 
-import javax.annotation.Resource;
-
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +7,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,18 +14,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@RequestMapping(value = "/coupons")
 @RestController
 public class CouponsFunction {
-
-  @Qualifier("mainDomain")
-  @Resource
-  private String _mainDomain;
 
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE,
-      value = "/issued")
+      value = "/coupons/issued")
   public ResponseEntity<String> create(
       @AuthenticationPrincipal Jwt jwt,
       @RequestBody String json)

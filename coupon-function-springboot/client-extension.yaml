@@ -8,20 +8,8 @@ coupon-function-springboot:
   resourcePath: /coupons/issued
   oAuth2ApplicationExternalReferenceCode: coupon-function-springboot-user-agent
 
-machine-workflow-action-headless-server:
-  type: oauthApplicationHeadlessServer
-  scopes:
-    - Liferay.Headless.Admin.Workflow.everything
-  userAccountEmailAddress: test@$[conf:dxp.lxc.liferay.com.virtualInstanceId]
-
-assemble:
-  - include:
-    - "*.client-extension-config.json"
-
 runtime:
   type: service
   deps: ['coupon-definition']
   cpu: 500m
   memory: 256Mi
-  watch:
-  - "workflow-action.client-extension-config.json"
