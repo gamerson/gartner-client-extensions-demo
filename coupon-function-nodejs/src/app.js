@@ -11,8 +11,7 @@ app.use(cookieParser());
 app.use(authenticate);
 
 app.get('/', function(req, res) {
-  logger.info('READY');
-  res.status(200).send('ARE YOU READY?');
+  res.status(200).send('READY');
 });
 
 app.post('/coupons/issued', function(req, res) {
