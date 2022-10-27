@@ -1,5 +1,5 @@
 {
-  "com.liferay.portal.funcio.internal.workflow.configuration.FuncioActionExecutorFactoryConfiguration~machine-workflow-action" : {
+  "com.liferay.portal.workflow.kaleo.runtime.internal.configuration.FunctionActionExecutorImplConfiguration~machine-workflow-action" : {
     "baseURL" : "${portalURL}/o/coupon-function-springboot",
     "dxp.lxc.liferay.com.virtualInstanceId" : "default",
     "oAuth2ApplicationExternalReferenceCode" : "machine-workflow-action-headless-server",
