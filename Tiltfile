@@ -1,9 +1,16 @@
 load("ext://uibutton", "cmd_button", "text_input", "location")
+include('ext://cancel')
+
+#dxp_data_volume = "liferayGartnerDemoData"
+
+more_dxp_buildargs = {
+    "DXP_BASE_IMAGE": "liferay/dxp:7.4.13.nightly-d5.0.2-20221028072756"
+}
 
 # This map will add additional ENV VARs to the dxp-server docker container
-additional_dxp_envs = {
-    "FOO": "BAR",
-    "FIZZ": "BUZZ",
+more_dxp_envs = {
+    #"FOO": "BAR",
+    #"FIZZ": "BUZZ",
 }
 
 # The localdev Tiltfile will look for a Tiltfile in the root of the client extensions directory
@@ -25,6 +32,6 @@ def add_drop_db_button():
         icon_name="delete",
         text="Kill DXP && Drop Docker Volume!",
         inputs=[
-            text_input("VOLUME"),
+            text_input("VOLUME")#, default=dxp_data_volume)
         ],
     )
