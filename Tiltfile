@@ -14,25 +14,15 @@ more_dxp_buildargs = {
 #    "FIZZ": "BUZZ",
 #}
 
-# The localdev Tiltfile will look for a Tiltfile in the root of the client extensions directory
-# if it exists, and there is a after_all() function it will be called after main Tiltfile is processed
-def after_all():
-    add_drop_db_button()
-
-
-def add_drop_db_button():
-    # api docs for adding UIButtons found here: https://docs.tilt.dev/buttons.html
-    cmd_button(
-        "Kill DXP && Drop Docker Volume!",
-        argv=[
-            "sh",
-            "-c",
-            "docker container rm -f dxp-server && docker volume rm $VOLUME",
-        ],
-        resource="dxp.lfr.dev",
-        icon_name="delete",
-        text="Kill DXP && Drop Docker Volume!",
-        inputs=[
-            text_input("VOLUME", default=dxp_data_volume)
-        ],
-    )
+# api docs for adding UIButtons found here: https://docs.tilt.dev/buttons.html
+cmd_button(
+    "Kill DXP && Drop Docker Volume!",
+    argv=[
+        "sh",
+        "-c",
+        "docker container rm -f dxp-server && docker volume rm %s" % dxp_data_volume,
+    ],
+    resource="dxp.lfr.dev",
+    icon_name="delete",
+    text="Kill DXP && Drop Docker Volume!"
+)
