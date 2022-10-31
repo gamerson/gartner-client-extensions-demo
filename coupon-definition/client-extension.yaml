@@ -13,4 +13,4 @@ runtime:
   - name: OAUTH2_JOB_PROFILE
     value: coupon-definition
   - name: CURL_FLAGS
-    value: ""
+    value: "-v"
